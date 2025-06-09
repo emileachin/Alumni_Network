@@ -25,7 +25,7 @@ loginRouter.post('/', async (request, response) => {
         id: alumni.id
     }, process.env.SECRET, { expiresIn: 60*60 })
 
-    //Return token and alumni info to frontend after successful login
+    // Return token and alumni username and name to frontend after successful login
     response.status(200).json({ token: userToken, username: alumni.username, name: alumni.firstName + " " + alumni.lastName})
 })
 

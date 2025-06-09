@@ -9,12 +9,14 @@ import {
 } from "react-router-dom"
 
 function App() {
+  // State variables
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [token, setToken] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
+  // Navigation (to redirect to another endpoint)
   const navigate = useNavigate()
 
   // Check if user is logged in
