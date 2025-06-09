@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate
+} from "react-router-dom"
 
 function App() {
   const [user, setUser] = useState(null)
@@ -8,6 +14,8 @@ function App() {
   const [password, setPassword] = useState('')
   const [token, setToken] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+
+  const navigate = useNavigate()
 
   // Check if user is logged in
   useEffect(() => {
@@ -37,6 +45,9 @@ function App() {
       setUsername('')
       setPassword('')
       setUser(user)
+
+      // Navigate to home page
+      navigate('/')
     }
     // Error handling
     catch (error) {
@@ -56,18 +67,30 @@ function App() {
 
   return (
     <>
-      <h2>Log in to application</h2>
-      <LoginForm 
-        username={username}
-        password={password}
-        handleLogin={handleLogin}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        errorMessage={errorMessage}
-      />
-      <button onClick={logout}>Logout</button>
       <div>
-        {user ? <p>{user.name} logged in</p> : <p>Not logged in</p>}
+        <h2>Log in to application</h2>
+        <Link to="/">home     </Link>
+        <Link to="/register">register     </Link>
+        <Link to="/login">login</Link>
+      
+        <Routes>
+          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/register" element={<h1>Register</h1>} />
+          <Route path="/login" element={
+            <LoginForm 
+            username={username}
+            password={password}
+            handleLogin={handleLogin}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            errorMessage={errorMessage}
+          />
+          } />
+        </Routes>
+        <button onClick={logout}>Logout</button>
+          <div>
+            {user ? <p>{user.name} logged in</p> : <p>Not logged in</p>}
+          </div>
       </div>
     </>
   )
