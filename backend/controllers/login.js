@@ -11,7 +11,7 @@ loginRouter.post('/', async (request, response) => {
     const alumni = await Alumni.findOne({ username })
 
     //Check if password is correct
-    const isMatch = alumni.comparePassword(password)
+    const isMatch = await alumni.comparePassword(password)
 
     //If the password doesn't match or alumni doesn't exist return error
     if (!isMatch || !alumni) {
