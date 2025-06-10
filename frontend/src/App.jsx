@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import loginService from './services/login'
 import LoginForm from './components/LoginForm'
+import RegisterForm from './components/RegisterForm'
 import {
   Routes,
   Route,
@@ -73,11 +74,12 @@ function App() {
         <h2>Log in to application</h2>
         <Link to="/">home     </Link>
         <Link to="/register">register     </Link>
-        <Link to="/login">login</Link>
+        <Link to="/login">login       </Link>
+        <Link to="/register">register</Link>
       
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
-          <Route path="/register" element={<h1>Register</h1>} />
+          <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={
             <LoginForm 
             username={username}

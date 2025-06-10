@@ -3,7 +3,7 @@ const registerRouter = require('express').Router()
 
 registerRouter.post('/', async(request, response) => {
     // Extract fields from request body
-    const { firstName, lastName, username, email, password, userType, highschoolGraduationYear, postSecondaryInstuition, postSecondaryGradYear, currentCompany, jobPosition, linkedin } = request.body
+    const { firstName, lastName, username, email, password, userType, highschoolGraduationYear, typeOfPostSecondary, postSecondaryInstuition, postSecondaryGradYear, currentCompany, jobPosition, linkedin } = request.body
 
     //Create new alumni object with request data
     const alumni = new Alumni({
@@ -14,6 +14,7 @@ registerRouter.post('/', async(request, response) => {
         password,
         userType,
         highschoolGraduationYear,
+        typeOfPostSecondary,
         postSecondaryInstuition,
         postSecondaryGradYear,
         currentCompany,

@@ -28,11 +28,15 @@ const alumniSchema = new mongoose.Schema({
     },
     userType: {
         type: String,
-        enum: ['student', 'professional']
+        enum: ['Student', 'Professional']
     },
     highschoolGraduationYear: {
         type: Number,
         required: true
+    },
+    typeOfPostSecondary: {
+        type: String,
+        enum: ['College', 'University', 'None']
     },
     postSecondaryInstuition: {
         type: String
