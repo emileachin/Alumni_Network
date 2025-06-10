@@ -30,6 +30,10 @@ const authentication = async (request, response, next) => {
         }
         
         const user = await User.findById(decodedToken.id)
+        
+        if (!user) {
+            return response.status(401).json({ error: "User not found" })
+        }
 
         request.user = user 
         next()

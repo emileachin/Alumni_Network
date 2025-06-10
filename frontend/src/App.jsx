@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import loginService from './services/login'
+import alumniService from './services/alumni'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
+import Alumni from './components/Alumni'
 import {
   Routes,
   Route,
@@ -14,7 +16,6 @@ function App() {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [token, setToken] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
   // Navigation (to redirect to another endpoint)
@@ -28,8 +29,8 @@ function App() {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
 
-      // Set the token for future requests (dummy function for now) (funcions would fail without it, constant reloading)
-      setToken(`Bearer ${user.token}`)
+      // Set the token 
+      alumniService.setToken(user.token)
     }
   }, [])
   
@@ -47,10 +48,15 @@ function App() {
 
       setUsername('')
       setPassword('')
+
+      // Set token for future requests
+      alumniService.setToken(user.token)
+
+      // Set user state
       setUser(user)
 
       // Navigate to home page
-      navigate('/')
+      navigate('/dashboard')
     }
     // Error handling
     catch (error) {
@@ -65,7 +71,7 @@ function App() {
   const logout = () => {
     window.localStorage.removeItem('loggedAppUser')
     setUser(null)
-    setToken
+    alumniService.setToken(null)
   }
 
   return (
@@ -74,7 +80,10 @@ function App() {
         <h2>Log in to application</h2>
         <Link to="/">home     </Link>
         <Link to="/login">login       </Link>
-        <Link to="/register">register</Link>
+        <Link to="/register">register     </Link>
+        <Link to="/dashboard">dashboard</Link>
+        <br/>
+        {user && <Link to="/dashboard/alumnis">alumni list</Link>}
       
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
@@ -87,9 +96,23 @@ function App() {
             handleUsernameChange={({ target }) => setUsername(target.value)}
             handlePasswordChange={({ target }) => setPassword(target.value)}
             errorMessage={errorMessage}
-            logout={logout}
             user={user}
           />
+          } />
+          <Route path="/dashboard" element={
+            user ? 
+            <>
+              <h1>Welcome to the dashboard, {user.username}!</h1>
+              <button onClick={logout}>Logout</button>
+            </>
+            : <h1>Please log in to access the dashboard.</h1>
+          } />
+          <Route path="/dashboard/alumnis" element={
+            user ? 
+            <>
+              <h1>Alumni List</h1>
+              <Alumni />
+            </> : <h1>Please log in to view the alumni list.</h1>
           } />
         </Routes>
       </div>
