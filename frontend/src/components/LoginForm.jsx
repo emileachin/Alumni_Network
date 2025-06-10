@@ -4,7 +4,9 @@ const LoginForm = ({
     handleLogin, 
     handleUsernameChange,
     handlePasswordChange,
-    errorMessage
+    errorMessage,
+    logout,
+    user
 }) => {
     return (
         <>
@@ -20,6 +22,10 @@ const LoginForm = ({
                 <button type="submit">login</button>
             </form>
             {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
+            <button onClick={logout}>Logout</button>
+            <div>
+                {user ? <p>{user.name} logged in</p> : <p>Not logged in</p>}
+            </div>
         </>
     )
 }

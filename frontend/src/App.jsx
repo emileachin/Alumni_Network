@@ -88,13 +88,11 @@ function App() {
             handleUsernameChange={({ target }) => setUsername(target.value)}
             handlePasswordChange={({ target }) => setPassword(target.value)}
             errorMessage={errorMessage}
+            logout={logout}
+            user={user}
           />
           } />
         </Routes>
-        <button onClick={logout}>Logout</button>
-          <div>
-            {user ? <p>{user.name} logged in</p> : <p>Not logged in</p>}
-          </div>
       </div>
     </>
   )
