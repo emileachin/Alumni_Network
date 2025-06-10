@@ -73,7 +73,6 @@ function App() {
       <div>
         <h2>Log in to application</h2>
         <Link to="/">home     </Link>
-        <Link to="/register">register     </Link>
         <Link to="/login">login       </Link>
         <Link to="/register">register</Link>
       
