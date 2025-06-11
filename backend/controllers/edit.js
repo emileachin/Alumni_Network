@@ -2,6 +2,30 @@ const editRouter = require('express').Router()
 const Alumni = require('../models/alumni')
 const logger = require('../utils/logger')
 
+editRouter.get("/:username", async (request, response) => {
+    try {
+        const username = request.params.username
+        logger.info('Fetch request received for ID:', id)
+
+        // Fetch the alumni by ID
+        const alumni = await Alumni.findOne({ username: username })
+        
+        if (!alumni) {
+            logger.error('Alumni not found for ID:', id)
+            return response.status(404).json({ error: 'Alumni not found' })
+        }
+
+        logger.info('Alumni fetched successfully:', alumni)
+        response.json(alumni)
+    } catch (error) {
+        logger.error('Fetch error:', error.message)
+        response.status(500).json({ 
+            error: 'Server error during fetch',
+            details: error.message 
+        })
+    }
+})
+
 editRouter.put("/:id", async (request, response) => {
     try {
         const id = request.params.id

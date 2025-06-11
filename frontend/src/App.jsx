@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import Alumni from './components/Alumni'
 import Matches from './components/Matches'
+import EditProfile from './components/EditProfile'
 import {
   Routes,
   Route,
@@ -94,7 +95,8 @@ function App() {
                         <Link to="/dashboard">dashboard</Link>
                         <br/>
                         <Link to="/dashboard/alumnis">alumni list         </Link>
-                        <Link to="/dashboard/matches">matches</Link>
+                        <Link to="/dashboard/matches">matches       </Link>
+                        <Link to="/dashboard/editprofile">edit profile    </Link>
                     </>
         )}
       
@@ -122,6 +124,7 @@ function App() {
                             } />
                             <Route path="/dashboard/alumnis" element={<Alumni />} />
                             <Route path="/dashboard/matches" element={<Matches />} />
+                            <Route path="/dashboard/editprofile" element={<EditProfile />} />
                         </>
                     )}
           <Route path="*" element={<h1>This page does not exist</h1>} />
