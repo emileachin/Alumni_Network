@@ -49,6 +49,14 @@ const RegisterForm = ({ setErrorMessage }) => {
             return
         }
 
+        let linkedinRegex = /^(https?\/\/)?(www\.)?linkedin\.com\/in\/[\w-]+\/?$/
+
+        // Check LinkedIn URL validity
+        if (linkedin && !linkedinRegex.test(linkedin)) {
+            setErrorMessage('Invalid LinkedIn URL. Please enter a valid URL in the format: https://www.linkedin.com/in/username/')
+            return
+        }
+
         // Create new user object
         const newUser = {
             firstName,
@@ -178,11 +186,12 @@ const RegisterForm = ({ setErrorMessage }) => {
                     Job Position:
                     <input type="text" value={jobPosition} name="jobPosition" onChange={({ target }) => setJobPosition(target.value)} />
                 </div>
-                <div>
-                    LinkedIn Profile: 
-                    <input type="url" value={linkedin} name="linkedin" onChange={({ target }) => setLinkedin(target.value)} placeholder="www.linkedin.com/in/johndoe/" />
-                </div></>
+                </>
             )}
+            <div>
+                LinkedIn Profile: 
+                <input type="url" value={linkedin} name="linkedin" onChange={({ target }) => setLinkedin(target.value)} placeholder="www.linkedin.com/in/johndoe/" />
+                </div>
             <button type="submit">Register</button>
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         </form>

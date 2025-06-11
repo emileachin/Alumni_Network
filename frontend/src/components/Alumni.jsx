@@ -28,18 +28,17 @@ const Alumni = () => {
 
     return (
         <div>
-            <h2>Alumni List ({alumni.length})</h2>
+            <h2>Alumni List </h2>
             {alumni.map(alumnus => (
                 <div key={alumnus.id} className="alumni-card">
+                    <a href={`mailto:${alumnus.email}`} target="_blank" rel="noopener noreferrer">Email</a>
                     <h3>{alumnus.firstName} {alumnus.lastName}</h3>
-                    <p>Email: {alumnus.email}</p>
-                    <p>Username: {alumnus.username}</p>
                     <p>High School Graduation Year: {alumnus.highschoolGraduationYear}</p>
-                    <p>Post Secondary Institution: {alumnus.postSecondaryInstuition}</p>
-                    <p>Post Secondary Graduation Year: {alumnus.postSecondaryGradYear}</p>
-                    <p>Current Company: {alumnus.currentCompany}</p>
-                    <p>Job Position: {alumnus.jobPosition}</p>
-                    <p>LinkedIn: <a href={alumnus.linkedin} target="_blank" rel="noopener noreferrer">{alumnus.linkedin}</a></p>
+                    {alumnus.postSecondaryInstuition && <p>Post Secondary Institution: {alumnus.postSecondaryInstuition}</p>}
+                    {alumnus.postSecondaryGradYear && <p>Post Secondary Graduation Year: {alumnus.postSecondaryGradYear}</p>}
+                    {alumnus.currentCompany && <p>Current Company: {alumnus.currentCompany}</p>}
+                    {alumnus.jobPosition && <p>Job Position: {alumnus.jobPosition}</p>}
+                    {alumnus.linkedin && <p>LinkedIn: <a href={alumnus.linkedin} target="_blank" >{alumnus.linkedin}</a></p>}
                 </div>
             ))}
         </div>

@@ -55,7 +55,7 @@ function App() {
       // Set user state
       setUser(user)
 
-      // Navigate to home page
+      // Navigate to dashboard
       navigate('/dashboard')
     }
     // Error handling
@@ -72,23 +72,31 @@ function App() {
     window.localStorage.removeItem('loggedAppUser')
     setUser(null)
     alumniService.setToken(null)
+
+    /// Navigate to home page after logout
+    navigate('/')
   }
 
   return (
     <>
       <div>
-        <h2>Log in to application</h2>
+        <h1>Alumni Network</h1>
         <Link to="/">home     </Link>
-        <Link to="/login">login       </Link>
-        <Link to="/register">register     </Link>
-        <Link to="/dashboard">dashboard</Link>
-        <br/>
-        {user && <Link to="/dashboard/alumnis">alumni list</Link>}
+        {!user && <Link to="/login">login       </Link>}
+        {!user && <Link to="/register">register     </Link>}
+        {user && (
+                    <>
+                        <Link to="/dashboard">dashboard</Link>
+                        <br/>
+                        <Link to="/dashboard/alumnis">alumni list         </Link>
+                        <Link to="/dashboard/matches">matches</Link>
+                    </>
+        )}
       
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/login" element={
+          {!user && <Route path="/register" element={<RegisterForm />} />}
+          {!user && <Route path="/login" element={
             <LoginForm 
             username={username}
             password={password}
@@ -98,22 +106,20 @@ function App() {
             errorMessage={errorMessage}
             user={user}
           />
-          } />
-          <Route path="/dashboard" element={
-            user ? 
-            <>
-              <h1>Welcome to the dashboard, {user.username}!</h1>
-              <button onClick={logout}>Logout</button>
-            </>
-            : <h1>Please log in to access the dashboard.</h1>
-          } />
-          <Route path="/dashboard/alumnis" element={
-            user ? 
-            <>
-            <Alumni />
-              <h1>Alumni List</h1>
-            </> : <h1>Please log in to view the alumni list.</h1>
-          } />
+          } />}
+          {user && (
+                        <>
+                            <Route path="/dashboard" element={
+                                <>
+                                  <h1>Welcome to the dashboard, {user.username}!</h1>
+                                  <button onClick={logout}>Logout</button>
+                                </>
+                            } />
+                            <Route path="/dashboard/alumnis" element={<Alumni />} />
+                            <Route path="/dashboard/matches" element={<h1>Matches</h1>} />
+                        </>
+                    )}
+          <Route path="*" element={<h1>This page does not exist</h1>} />
         </Routes>
       </div>
     </>
