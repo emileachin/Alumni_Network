@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import registerService from '../services/register'; 
 import {  useNavigate  } from 'react-router-dom';
+import {colleges, universities} from '../postSecondaryChoices/canadianInstuitions'; // Importing the colleges data
 
 const RegisterForm = ({ setErrorMessage }) => {
     const [firstName, setFirstName] = useState('')
@@ -135,41 +136,61 @@ const RegisterForm = ({ setErrorMessage }) => {
                 High School Graduation Year: 
                 <input type="year" value={highschoolGraduationYear} name="highschoolGraduationYear" onChange={({ target }) => setHighschoolGraduationYear(Number(target.value))} required />
             </div>
-            <div>
-                Type of Post-Secondary:
-                <select value={typeOfPostSecondary} name="typeOfPostSecondary" onChange={({ target }) => setTypeOfPostSecondary(target.value)} id="typeOfPostSecondary">
-                    <option value="">Select Type</option>
-                    <option value="College">College</option>
-                    <option value="University">University</option>
-                    <option value="None">None</option>
-                </select>
-            </div>
+            <label>
+                Did you attend a post-secondary instituition?
+                <input type="radio" value="Yes" checked={typeOfPostSecondary !== "" && typeOfPostSecondary !== "None"} onChange={() => setTypeOfPostSecondary("College")} />
+                Yes
+                <input type="radio" value="No" checked={typeOfPostSecondary === "None"} onChange={() => setTypeOfPostSecondary("None")} />
+                No
+            </label>
             {(typeOfPostSecondary != "" && typeOfPostSecondary != "None") && (
                 <>
+                    <div>
+                        Type of Post-Secondary:
+                        <select value={typeOfPostSecondary} name="typeOfPostSecondary" onChange={({ target }) => setTypeOfPostSecondary(target.value)} id="typeOfPostSecondary">
+                            <option value="">Select Type</option>
+                            <option value="College">College</option>
+                            <option value="University">University</option>
+                        </select>
+                    </div>
                     <div>
                 Province of Post-Secondary Institution:
                 <select value={provinceOfPostSecondary} name="provinceOfPostSecondary" onChange={({ target }) => setProvinceOfPostSecondary(target.value)} id="provinceOfPostSecondary">
                     <option value="">Select Province</option>
                     <option value="Alberta">Alberta</option>
-                    <option value="British Columbia">British Columbia</option>
+                    <option value="BritishColumbia">British Columbia</option>
                     <option value="Manitoba">Manitoba</option>
-                    <option value="New Brunswick">New Brunswick</option>
-                    <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-                    <option value="Nova Scotia">Nova Scotia</option>    
+                    <option value="NewBrunswick">New Brunswick</option>
+                    <option value="NewfoundlandandLabrador">Newfoundland and Labrador</option>
+                    <option value="NovaScotia">Nova Scotia</option>    
                     <option value="Ontario">Ontario</option>
-                    <option value="Prince Edward Island">Prince Edward Island</option>
+                    <option value="PrinceEdwardIsland">Prince Edward Island</option>
                     <option value="Quebec">Quebec</option>
                     <option value="Saskatchewan">Saskatchewan</option>
-                    <option value="Yukon">Yukon</option>
-                    <option value="Northwest Territories">Northwest Territories</option>
-                    <option value="Nunavut">Nunavut</option>
                 </select>
             </div>
-            <div>
-                {/*Add select options for post secondary instuition based on province*/}
-                Post-Secondary Institution: 
-                <input type="text" value={postSecondaryInstuition} name="postSecondaryInstuition" onChange={({ target }) => setPostSecondaryInstuition(target.value)} />
-            </div>
+            {(provinceOfPostSecondary && typeOfPostSecondary === "College") && (
+                <div>
+                    Post-Seconday Instituition:
+                    <select value={postSecondaryInstuition} name="postSecondaryInstuition" onChange={({ target }) => setPostSecondaryInstuition(target.value)} id="postSecondaryInstituition" >
+                        <option value="">Select Institution</option>
+                        {colleges[provinceOfPostSecondary].map(college => (
+                            <option value={college} key={college}>{college}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
+            {(provinceOfPostSecondary && typeOfPostSecondary === "University") && (
+                <div>
+                    Post-Seconday Instituition:
+                    <select value={postSecondaryInstuition} name="postSecondaryInstuition" onChange={({ target }) => setPostSecondaryInstuition(target.value)} id="postSecondaryInstituition" >
+                        <option value="">Select Institution</option>
+                        {universities[provinceOfPostSecondary].map(university => (
+                            <option value={university} key={university}>{university}</option>
+                        ))}
+                    </select>
+                </div>
+            )}
             <div>
                 Post-Secondary Graduation Year: 
                 <input type="year" value={postSecondaryGradYear} name="postSecondaryGradYear" onChange={({ target }) => setPostSecondaryGradYear(Number(target.value))} />
