@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import loginService from './services/login'
 import alumniService from './services/alumni'
+import matchService from './services/matches'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
 import Alumni from './components/Alumni'
+import Matches from './components/Matches'
 import {
   Routes,
   Route,
@@ -31,6 +33,7 @@ function App() {
 
       // Set the token 
       alumniService.setToken(user.token)
+      matchService.setToken(user.token)
     }
   }, [])
   
@@ -51,6 +54,7 @@ function App() {
 
       // Set token for future requests
       alumniService.setToken(user.token)
+      matchService.setToken(user.token)
 
       // Set user state
       setUser(user)
@@ -72,6 +76,7 @@ function App() {
     window.localStorage.removeItem('loggedAppUser')
     setUser(null)
     alumniService.setToken(null)
+    matchService.setToken(null)
 
     /// Navigate to home page after logout
     navigate('/')
@@ -116,7 +121,7 @@ function App() {
                                 </>
                             } />
                             <Route path="/dashboard/alumnis" element={<Alumni />} />
-                            <Route path="/dashboard/matches" element={<h1>Matches</h1>} />
+                            <Route path="/dashboard/matches" element={<Matches />} />
                         </>
                     )}
           <Route path="*" element={<h1>This page does not exist</h1>} />

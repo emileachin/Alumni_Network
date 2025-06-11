@@ -31,7 +31,6 @@ const Alumni = () => {
             <h2>Alumni List </h2>
             {alumni.map(alumnus => (
                 <div key={alumnus.id} className="alumni-card">
-                    <a href={`mailto:${alumnus.email}`} target="_blank" rel="noopener noreferrer">Email</a>
                     <h3>{alumnus.firstName} {alumnus.lastName}</h3>
                     <p>High School Graduation Year: {alumnus.highschoolGraduationYear}</p>
                     {alumnus.postSecondaryInstuition && <p>Post Secondary Institution: {alumnus.postSecondaryInstuition}</p>}

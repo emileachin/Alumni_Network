@@ -31,7 +31,7 @@ app.use(middleware.authentication)
 
 //Alumni routes
 app.use("/api/alumni", alumniRouter)
-app.use("api/matches", matchesRouter)
+app.use("/api/matches", matchesRouter)
 
 //Middleware for unknown endpoint and error handling
 app.use(middleware.unknownEndpoint)

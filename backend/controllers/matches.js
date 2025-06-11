@@ -1,9 +1,12 @@
 const matchesRouter = require('express').Router();
 const Alumni = require('../models/alumni');
+const logger = require('../utils/logger');
 
 matchesRouter.get('/', async (request, response) => {
     try {
         const currentUser = request.user
+
+        logger.info('Token received:', request.headers.authorization) 
 
         // Clean and normalize the search terms
         const userUniversity = currentUser.postSecondaryInstuition?.trim().toLowerCase()

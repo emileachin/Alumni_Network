@@ -1,19 +1,20 @@
-import axios from 'axios'
-const baseUrl = '/api/alumni'
+import axios from "axios";
+const baseUrl = "/api/matches"
 
 let token = null
 
-// This service fetches all alumni data from the backend API
-const getAll = async () => {
-  try {
+const getMatches = async () => {
+    try {
    // Configure the request with the token
     const config = {
       headers: { Authorization: token }
     }
+
+    // Make the GET request to fetch matches
     const response = await axios.get(baseUrl, config)
     return response.data
   } catch (error) {
-    console.error('Error fetching alumni:', error)
+    console.error('Error fetching matches:', error)
     throw error
   }
 }
@@ -23,9 +24,4 @@ const setToken = (newToken) => {
     token = `Bearer ${newToken}`
 }
 
-const getToken = () => {
-    // Return the current token
-    return token
-}
-
-export default { getAll, setToken, getToken }
+export default { getMatches, setToken };
