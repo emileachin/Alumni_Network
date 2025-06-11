@@ -53,7 +53,10 @@ const alumniSchema = new mongoose.Schema({
     linkedin: {
         type: String
     },
-   
+    matchBasedOn: {
+        type: String,
+        enum: ['Post Secondary', 'Career', 'Program']
+    }
 })
 
 alumniSchema.set('toJSON', {

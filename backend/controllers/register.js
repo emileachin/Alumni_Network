@@ -19,7 +19,8 @@ registerRouter.post('/', async(request, response) => {
         postSecondaryGradYear,
         currentCompany,
         jobPosition,
-        linkedin
+        linkedin,
+        matchBasedOn
     })
 
     //Save alumni object to database
