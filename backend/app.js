@@ -6,6 +6,7 @@ const middleware = require("./utils/middleware")
 const alumniRouter = require('./controllers/alumni')
 const loginRouter = require('./controllers/login')
 const registerRouter = require('./controllers/register')
+const matchesRouter = require('./controllers/matches')
 const logger = require('./utils/logger')
 
 const app = express()
@@ -30,6 +31,7 @@ app.use(middleware.authentication)
 
 //Alumni routes
 app.use("/api/alumni", alumniRouter)
+app.use("api/matches", matchesRouter)
 
 //Middleware for unknown endpoint and error handling
 app.use(middleware.unknownEndpoint)

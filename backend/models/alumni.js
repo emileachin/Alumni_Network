@@ -52,7 +52,8 @@ const alumniSchema = new mongoose.Schema({
     },
     linkedin: {
         type: String
-    }
+    },
+   
 })
 
 alumniSchema.set('toJSON', {
