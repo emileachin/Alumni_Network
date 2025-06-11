@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const config = require('./utils/config')
 const middleware = require("./utils/middleware")
 const alumniRouter = require('./controllers/alumni')
+const editRouter = require('./controllers/edit')
 const loginRouter = require('./controllers/login')
 const registerRouter = require('./controllers/register')
 const matchesRouter = require('./controllers/matches')
@@ -32,6 +33,7 @@ app.use(middleware.authentication)
 //Alumni routes
 app.use("/api/alumni", alumniRouter)
 app.use("/api/matches", matchesRouter)
+app.use("/api/edit", editRouter)
 
 //Middleware for unknown endpoint and error handling
 app.use(middleware.unknownEndpoint)
