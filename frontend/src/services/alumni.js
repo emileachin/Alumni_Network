@@ -6,7 +6,7 @@ let token = null
 // This service fetches all alumni data from the backend API
 const getAll = async () => {
   try {
-    // Configure the request with the token
+   // Configure the request with the token
     const config = {
       headers: { Authorization: token }
     }

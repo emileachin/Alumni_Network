@@ -21,13 +21,14 @@ app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger)
 
-app.use(middleware.authentication)
-
 //Register and login routes
 app.use("/api/register", registerRouter)
 app.use("/api/login", loginRouter)
 
 //Authentication middleware
+app.use(middleware.authentication)
+
+//Alumni routes
 app.use("/api/alumni", alumniRouter)
 
 //Middleware for unknown endpoint and error handling

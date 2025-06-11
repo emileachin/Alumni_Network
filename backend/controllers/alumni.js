@@ -1,5 +1,5 @@
 const alumniRouter = require('express').Router();
-const { Alumni } = require('../models/alumni');
+const Alumni = require('../models/alumni');
 const logger = require('../utils/logger');
 
 alumniRouter.get('/', async (request, response) => {

@@ -110,8 +110,8 @@ function App() {
           <Route path="/dashboard/alumnis" element={
             user ? 
             <>
+            <Alumni />
               <h1>Alumni List</h1>
-              <Alumni />
             </> : <h1>Please log in to view the alumni list.</h1>
           } />
         </Routes>

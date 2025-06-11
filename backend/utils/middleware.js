@@ -1,3 +1,4 @@
+const Alumni = require('../models/alumni')
 const logger = require('./logger')
 const jwt = require('jsonwebtoken')
 
@@ -29,7 +30,7 @@ const authentication = async (request, response, next) => {
             return response.status(401).json({ error: "Invalid token" })
         }
         
-        const user = await User.findById(decodedToken.id)
+        const user = await Alumni.findById(decodedToken.id)
         
         if (!user) {
             return response.status(401).json({ error: "User not found" })
