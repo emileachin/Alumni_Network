@@ -13,7 +13,7 @@ const RegisterForm = ({ setErrorMessage }) => {
     const [highschoolGraduationYear, setHighschoolGraduationYear] = useState(0)
     const [typeOfPostSecondary, setTypeOfPostSecondary] = useState('')
     const [provinceOfPostSecondary, setProvinceOfPostSecondary] = useState('')
-    const [postSecondaryInstuition, setPostSecondaryInstuition] = useState("")
+    const [postSecondaryInstituition, setPostSecondaryInstituition] = useState("")
     const [postSecondaryProgram, setPostSecondaryProgram] = useState("")
     const [postSecondaryGradYear, setPostSecondaryGradYear] = useState(0)
     const [currentCompany, setCurrentCompany] = useState('')
@@ -68,7 +68,7 @@ const RegisterForm = ({ setErrorMessage }) => {
             password,
             userType,
             highschoolGraduationYear,
-            postSecondaryInstuition,
+            postSecondaryInstituition,
             postSecondaryProgram,
             postSecondaryGradYear,
             currentCompany,
@@ -89,7 +89,7 @@ const RegisterForm = ({ setErrorMessage }) => {
                 setUserType('')
                 setHighschoolGraduationYear(0)
                 setTypeOfPostSecondary('')
-                setPostSecondaryInstuition('')
+                setPostSecondaryInstituition('')
                 setPostSecondaryProgram('')
                 setPostSecondaryGradYear(0)
                 setCurrentCompany('')
@@ -175,7 +175,7 @@ const RegisterForm = ({ setErrorMessage }) => {
             {(provinceOfPostSecondary && typeOfPostSecondary === "College") && (
                 <div>
                     Post-Seconday Instituition:
-                    <select value={postSecondaryInstuition} name="postSecondaryInstuition" onChange={({ target }) => setPostSecondaryInstuition(target.value)} id="postSecondaryInstituition" >
+                    <select value={postSecondaryInstituition} name="postSecondaryInstituition" onChange={({ target }) => setPostSecondaryInstituition(target.value)} id="postSecondaryInstituition" >
                         <option value="">Select Institution</option>
                         {colleges[provinceOfPostSecondary].map(college => (
                             <option value={college} key={college}>{college}</option>
@@ -186,7 +186,7 @@ const RegisterForm = ({ setErrorMessage }) => {
             {(provinceOfPostSecondary && typeOfPostSecondary === "University") && (
                 <div>
                     Post-Seconday Instituition:
-                    <select value={postSecondaryInstuition} name="postSecondaryInstuition" onChange={({ target }) => setPostSecondaryInstuition(target.value)} id="postSecondaryInstituition" >
+                    <select value={postSecondaryInstituition} name="postSecondaryInstituition" onChange={({ target }) => setPostSecondaryInstituition(target.value)} id="postSecondaryInstituition" >
                         <option value="">Select Institution</option>
                         {universities[provinceOfPostSecondary].map(university => (
                             <option value={university} key={university}>{university}</option>

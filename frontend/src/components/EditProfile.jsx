@@ -26,6 +26,15 @@ const EditProfile = () => {
             const alumniData = await editService.getAlumni(user.username)
             setAlumnus(alumniData)
 
+            setFormData({
+                    email: alumniData.email || '',
+                    currentCompany: alumniData.currentCompany || '',
+                    jobPosition: alumniData.jobPosition || '',
+                    linkedin: alumniData.linkedin || '',
+                    firstName: alumniData.firstName || '',
+                    lastName: alumniData.lastName || ''
+            });
+
             console.log("Successfully fetched", alumniData)
         } catch (error) {
             console.error(error)
@@ -47,7 +56,17 @@ const EditProfile = () => {
         event.preventDefault()
 
         try {
-            await editService.editAlumni(alumnus.id, formData)
+            let linkedinRegex = /^(https?\/\/)?(www\.)?linkedin\.com\/in\/[\w-]+\/?$/
+
+        // Check LinkedIn URL validity
+
+        if (formData.linkedin && !linkedinRegex.test(formData.linkedin)) {
+            return
+        }
+            const newAlumniData = {...alumnus, ...formData}
+            await editService.editAlumni(newAlumniData)
+
+            console.log("Successfully replaced in database: ", newAlumniData)
             setFormData({
                 email: '',
                 currentCompany: '',
@@ -60,10 +79,30 @@ const EditProfile = () => {
         catch (error) {
             console.error(error)
         }
+
+        if (!alumnus) {
+            return <div>Loading....</div>
+        }
+    }
+
+    if (!alumnus) {
+    return <div>Loading...</div>;
     }
 
     return (
         <form onSubmit={handleSubmit}>
+                <div>
+                    User Type: {alumnus.userType}
+                </div>
+                <div>
+                    High School Graduation Year: {alumnus.highschoolGraduationYear}
+                </div>
+                {alumnus.postSecondaryInstitution && <div>
+                    Post Secondary Institution: {alumnus.postSecondaryInstitution}
+                </div>}
+                {alumnus.postSecondaryGradYear && <div>
+                    Post Secondary Grad Year: {alumnus.postSecondaryGradYear}
+                </div>}
                 <div>
                     <label>Email:</label>
                     <input
@@ -94,7 +133,7 @@ const EditProfile = () => {
                 <div>
                     <label>LinkedIn:</label>
                     <input
-                        type="url"
+                        type="text"
                         name="linkedin"
                         value={formData.linkedin}
                         onChange={handleChange}

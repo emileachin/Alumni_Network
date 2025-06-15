@@ -15,7 +15,7 @@ registerRouter.post('/', async(request, response) => {
         userType,
         highschoolGraduationYear,
         typeOfPostSecondary,
-        postSecondaryInstuition,
+        postSecondaryInstitution,
         postSecondaryProgram,
         postSecondaryGradYear,
         currentCompany,

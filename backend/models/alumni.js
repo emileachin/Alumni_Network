@@ -38,7 +38,7 @@ const alumniSchema = new mongoose.Schema({
         type: String,
         enum: ['College', 'University', 'None']
     },
-    postSecondaryInstuition: {
+    postSecondaryInstitution: {
         type: String
     },
     postSecondaryProgram: {
