@@ -12,6 +12,7 @@ const logger = require('./utils/logger')
 
 const app = express()
 
+
 mongoose.set('strictQuery', false)
 
 //Connect to databse
