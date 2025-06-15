@@ -21,9 +21,19 @@ const setToken = (newToken) => {
     token = `Bearer ${newToken}`
 }
 
-const editAlumni = async (alumni) => {
+const editAlumni = async (username, alumniData) => {
     try {
-        const response = await axios.put(`${baseUrl}/${alumni.username}`, alumni)
+        const config = {
+            headers: { Authorization: token }
+        }
+
+        console.log('Making PUT request:', {
+        url: `${baseUrl}/${username}`,
+        alumniData,
+        headers: config.headers
+        })
+
+        const response = await axios.put(`${baseUrl}/${username}`, alumniData, config)
         return response.data
     }
     catch (error) {

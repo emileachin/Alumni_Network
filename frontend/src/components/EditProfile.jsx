@@ -4,12 +4,18 @@ import { useState, useEffect } from 'react';
 const EditProfile = () => {
     const [alumnus, setAlumnus] = useState(null)
     const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        username: '',
         email: '',
+        userType: '',
+        highschoolGraduationYear: 0,
+        postSecondaryInstuition: '',
+        postSecondaryProgram: '',
+        postSecondaryGradYear: 0,
         currentCompany: '',
         jobPosition: '',
-        linkedin: '',
-        firstName: '',
-        lastName: ''
+        linkedin: ''
     })
 
     useEffect(() => {
@@ -27,12 +33,18 @@ const EditProfile = () => {
             setAlumnus(alumniData)
 
             setFormData({
+                    firstName: alumniData.firstName || '',
+                    lastName: alumniData.lastName || '',
+                    username: alumniData.username || '',
                     email: alumniData.email || '',
+                    userType: alumniData.userType || '',
+                    highschoolGraduationYear: alumniData.highschoolGraduationYear || 0,
+                    postSecondaryInstuition: alumniData.postSecondaryInstuition || '',
+                    postSecondaryProgram: alumniData.postSecondaryProgram || '',
+                    postSecondaryGradYear: alumniData.postSecondaryGradYear || 0,
                     currentCompany: alumniData.currentCompany || '',
                     jobPosition: alumniData.jobPosition || '',
-                    linkedin: alumniData.linkedin || '',
-                    firstName: alumniData.firstName || '',
-                    lastName: alumniData.lastName || ''
+                    linkedin: alumniData.linkedin || ''
             });
 
             console.log("Successfully fetched", alumniData)
@@ -63,18 +75,12 @@ const EditProfile = () => {
         if (formData.linkedin && !linkedinRegex.test(formData.linkedin)) {
             return
         }
-            const newAlumniData = {...alumnus, ...formData}
-            await editService.editAlumni(newAlumniData)
+            
+        console.log(formData)
 
-            console.log("Successfully replaced in database: ", newAlumniData)
-            setFormData({
-                email: '',
-                currentCompany: '',
-                jobPosition: '',
-                linkedin: '',
-                firstName: '',
-                lastName: ''
-            })
+        await editService.editAlumni(formData.username, formData)
+
+        console.log("Successfully replaced in database: ", formData)
         }
         catch (error) {
             console.error(error)
@@ -92,17 +98,11 @@ const EditProfile = () => {
     return (
         <form onSubmit={handleSubmit}>
                 <div>
-                    User Type: {alumnus.userType}
+                    First Name: {alumnus.firstName}
                 </div>
                 <div>
-                    High School Graduation Year: {alumnus.highschoolGraduationYear}
+                    Last Name: {alumnus.lastName}
                 </div>
-                {alumnus.postSecondaryInstitution && <div>
-                    Post Secondary Institution: {alumnus.postSecondaryInstitution}
-                </div>}
-                {alumnus.postSecondaryGradYear && <div>
-                    Post Secondary Grad Year: {alumnus.postSecondaryGradYear}
-                </div>}
                 <div>
                     <label>Email:</label>
                     <input
@@ -113,23 +113,59 @@ const EditProfile = () => {
                     />
                 </div>
                 <div>
-                    <label>Current Company:</label>
+                    Username: {alumnus.username}
+                </div>
+                <div>
+                User Type: 
+                <select value={formData.userType} name="userType" onChange={handleChange} id="usertype" required>
+                    <option value="">Select User Type</option>
+                    <option value="Student">Student</option>
+                    <option value="Professional">Professional</option>
+                </select>
+                </div>
+                <div>
+                    High School Graduation Year: {alumnus.highschoolGraduationYear}
+                </div>
+                {(alumnus.postSecondaryInstitution && alumnus.postSecondaryGradYear) && (
+                <>
+                <div>
+                    Post Secondary Institution: {alumnus.postSecondaryInstitution}
+                </div>
+                <div>
+                    <label>Post Secondary Program: </label>
                     <input
-                        type="text"
-                        name="currentCompany"
-                        value={formData.currentCompany}
-                        onChange={handleChange}
+                                type="text"
+                                name="postSecondaryProgram"
+                                value={formData.postSecondaryProgram}
+                                onChange={handleChange}
                     />
                 </div>
                 <div>
-                    <label>Job Position:</label>
-                    <input
-                        type="text"
-                        name="jobPosition"
-                        value={formData.jobPosition}
-                        onChange={handleChange}
-                    />
+                    Post Secondary Graduation Year: {alumnus.postSecondaryGradYear}
                 </div>
+                </>)}
+                {formData.userType === "Professional" && (
+                    <>
+                        <div>
+                            <label>Current Company:</label>
+                            <input
+                                type="text"
+                                name="currentCompany"
+                                value={formData.currentCompany}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div>
+                            <label>Job Position:</label>
+                            <input
+                                type="text"
+                                name="jobPosition"
+                                value={formData.jobPosition}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    </>
+                )}
                 <div>
                     <label>LinkedIn:</label>
                     <input
@@ -138,24 +174,6 @@ const EditProfile = () => {
                         value={formData.linkedin}
                         onChange={handleChange}
                         placeholder="https://linkedin.com/in/username"
-                    />
-                </div>
-                <div>
-                    <label>First Name:</label>
-                    <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label>Last Name:</label>
-                    <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
                     />
                 </div>
             <button type="submit">Save</button>

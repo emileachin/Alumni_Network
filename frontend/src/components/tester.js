@@ -1,3 +1,13 @@
+<div>
+                    First Name: {alumnus.firstName}
+                </div>
+                <div>
+                    Last Name: {alumnus.lastName}
+                </div>
+                <div>
+                    Username: {alumnus.username}
+                </div>
+
 
 
 <div>
