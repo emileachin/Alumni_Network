@@ -9,32 +9,86 @@ matchesRouter.get('/', async (request, response) => {
         logger.info('Token received:', request.headers.authorization) 
 
         // Clean and normalize the search terms
-        const userUniversity = currentUser.postSecondaryInstuition?.trim().toLowerCase()
-        const userProgram = currentUser.program?.trim().toLowerCase()
 
-        // Match using case-insensitive regex
-        const matches = await Alumni.find({
-            $or: [
-                { 
-                    postSecondaryInstuition: {
-                        $regex: new RegExp(`^${userUniversity}$`, 'i')
-                    }
-                },
-                { 
-                    program: {
-                        $regex: new RegExp(`^${userProgram}$`, 'i')
-                    }
+        class AlumniMatcher {
+            async findMatches (student) {
+                const userPostSecondary = currentUser.postSecondaryInstuition?.trim().toLowerCase()
+                const userProgram = currentUser.postSecondaryProgram?.trim().toLowerCase()
+
+                //Initialize matches depending on priority, 1. same program and university, 2. same university and 3. same program, different university
+                const matches = {
+                exact: [],
+                sameUni: [],
+                sameProgram: []
+            }
+
+            try {
+                // Find exact matches 
+                matches.exact = await this.findExactMatches(student)
+
+                // If exact matches are less than 2, look for second priority
+                if (matches.exact.length < 2) {
+                    matches.sameUni = await this.findUniversityMatches(student)
                 }
-            ],
-            // Exclude current user from matches
-            _id: { $ne: currentUser._id } 
-        }).select('-password -__v -username')
 
-        if (matches.length === 0) {
-            return response.status(404).json({ 
-                message: 'No matches found for your university or program' 
-            })
+                // If first and second priority matches are less than 5, look for third priority 
+                if ((matches.exact.length) + (matches.sameUni.length) < 5) {
+                    matches.sameProgram = await this.findProgramMatches(student)
+                }
+
+                // Sort matches by priority
+                return this.sortMatches(matches)
+            }
+            catch (error) {
+                logger.error("Error: ", error)
+                return []
+            }
+            }
+
+
+            async findExactMatches (student) {
+                return await Alumni.find({
+                    postSecondaryInstuition: {
+                        $regex: new RegExp(`^${userPostSecondary}$`, 'i')
+                    },
+                    postSecondaryProgram: {
+                        $regex: new RegExp(`^${userProgram}$`, 'i')
+                    },
+                    _id: { $ne: currentUser._id } 
+                }).select('-password -__v -username')
+            }
+
+            async findUniversityMatches (student) {
+                return await Alumni.find({
+                    postSecondaryInstuition: {
+                        $regex: new RegExp(`^${userPostSecondary}$`, 'i')
+                    },
+                    _id: { $ne: currentUser._id } 
+                }).select('-password -__v -username')
+            }
+
+            async findProgramMatches (student) {
+                return await Alumni.find({
+                    postSecondaryProgram: {
+                        $regex: new RegExp(`^${userProgram}$`, 'i')
+                    },
+                    _id: { $ne: currentUser._id } 
+                }).select('-password -__v -username')
+            }
+
+            sortMatches (matches) {
+                // Group all matches into one array and set the matchType object to specified match priority
+
+                const allMatches = [...matches.exact.map(match =>({...match.toObject(), matchType: 'exact', score: 1.0})), 
+                    ...matches.sameUni.map(match => ({...match.toObject(), matchType: "sameUniversity", score: 0.7})),
+                ...matches.sameProgram.map(match => ({...match.toObject(), matchType: "sameProgram", score: 0.5}))]
+
+                return allMatches.sort((a, b) => b.score - a.score)
+            }
         }
+
+        const matcher = new AlumniMatcher()
+        const matches = await matcher.findMatches(currentUser)
         
         // Return the matches without sensitive information
         response.json(matches)

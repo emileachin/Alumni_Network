@@ -23,7 +23,7 @@ const setToken = (newToken) => {
 
 const editAlumni = async (alumni) => {
     try {
-        const response = await axios.put(`${baseUrl}/${alumni.id}`, alumni)
+        const response = await axios.put(`${baseUrl}/${alumni.username}`, alumni)
         return response.data
     }
     catch (error) {

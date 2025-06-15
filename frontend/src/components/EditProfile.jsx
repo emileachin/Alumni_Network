@@ -14,6 +14,7 @@ const EditProfile = () => {
 
     useEffect(() => {
         let fetchAlumni = async () => {
+        try {
             const loggedUserJSON = window.localStorage.getItem('loggedAppUser')
             
             const user = JSON.parse(loggedUserJSON)
@@ -26,10 +27,12 @@ const EditProfile = () => {
             setAlumnus(alumniData)
 
             console.log("Successfully fetched", alumniData)
-        }
-        fetchAlumni().catch(error => {
-            console.error("Error fetching alumni data:", error)
-        })
+        } catch (error) {
+            console.error(error)
+            console.log(JSON.parse(window.localStorage.getItem('loggedAppUser')))
+        }}
+        
+        fetchAlumni()
     }, [])
 
     const handleChange = (event) => {

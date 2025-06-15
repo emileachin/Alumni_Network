@@ -14,6 +14,7 @@ const RegisterForm = ({ setErrorMessage }) => {
     const [typeOfPostSecondary, setTypeOfPostSecondary] = useState('')
     const [provinceOfPostSecondary, setProvinceOfPostSecondary] = useState('')
     const [postSecondaryInstuition, setPostSecondaryInstuition] = useState("")
+    const [postSecondaryProgram, setPostSecondaryProgram] = useState("")
     const [postSecondaryGradYear, setPostSecondaryGradYear] = useState(0)
     const [currentCompany, setCurrentCompany] = useState('')
     const [jobPosition, setJobPosition] = useState('')
@@ -68,6 +69,7 @@ const RegisterForm = ({ setErrorMessage }) => {
             userType,
             highschoolGraduationYear,
             postSecondaryInstuition,
+            postSecondaryProgram,
             postSecondaryGradYear,
             currentCompany,
             jobPosition,
@@ -88,6 +90,7 @@ const RegisterForm = ({ setErrorMessage }) => {
                 setHighschoolGraduationYear(0)
                 setTypeOfPostSecondary('')
                 setPostSecondaryInstuition('')
+                setPostSecondaryProgram('')
                 setPostSecondaryGradYear(0)
                 setCurrentCompany('')
                 setJobPosition('')
@@ -191,6 +194,10 @@ const RegisterForm = ({ setErrorMessage }) => {
                     </select>
                 </div>
             )}
+            <div>
+                Post Secondary Program: 
+                <input type="text" value={postSecondaryProgram} onChange={({target}) => setPostSecondaryProgram(target.value)} id="postSecondaryProgram" />
+            </div>
             <div>
                 Post-Secondary Graduation Year: 
                 <input type="year" value={postSecondaryGradYear} name="postSecondaryGradYear" onChange={({ target }) => setPostSecondaryGradYear(Number(target.value))} />

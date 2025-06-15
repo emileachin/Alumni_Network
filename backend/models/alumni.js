@@ -41,6 +41,9 @@ const alumniSchema = new mongoose.Schema({
     postSecondaryInstuition: {
         type: String
     },
+    postSecondaryProgram: {
+        type: String
+    },
     postSecondaryGradYear: {
         type: Number
     },

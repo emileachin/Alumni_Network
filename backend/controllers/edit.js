@@ -5,13 +5,11 @@ const logger = require('../utils/logger')
 editRouter.get("/:username", async (request, response) => {
     try {
         const username = request.params.username
-        logger.info('Fetch request received for ID:', id)
 
         // Fetch the alumni by ID
         const alumni = await Alumni.findOne({ username: username })
         
         if (!alumni) {
-            logger.error('Alumni not found for ID:', id)
             return response.status(404).json({ error: 'Alumni not found' })
         }
 
@@ -26,20 +24,21 @@ editRouter.get("/:username", async (request, response) => {
     }
 })
 
-editRouter.put("/:id", async (request, response) => {
+editRouter.put("/:username", async (request, response) => {
     try {
-        const id = request.params.id
+        const username = request.params.username
         const updatedData = request.body
 
-        logger.info('Update request received for ID:', id)
         logger.info('Update data:', updatedData)
 
         // Check if the alumni exists
-        const existingAlumni = await Alumni.findById(id)
+        const existingAlumni = await Alumni.findOne({ username: username })
         if (!existingAlumni) {
             logger.error('Alumni not found for ID:', id)
             return response.status(404).json({ error: 'Alumni not found' })
         }
+
+        const id = existingAlumni.id
 
         // Update the alumni
         const updated = await Alumni.findByIdAndUpdate(
@@ -53,7 +52,6 @@ editRouter.put("/:id", async (request, response) => {
         )
 
         if (!updated) {
-            logger.error('Error updating alumni for ID:', id)
             return response.status(400).json({ error: 'Update failed' })
         }
 
