@@ -12,9 +12,6 @@ matchesRouter.get('/', async (request, response) => {
 
         class AlumniMatcher {
             async findMatches (student) {
-                const userPostSecondary = currentUser.postSecondaryInstuition?.trim().toLowerCase()
-                const userProgram = currentUser.postSecondaryProgram?.trim().toLowerCase()
-
                 //Initialize matches depending on priority, 1. same program and university, 2. same university and 3. same program, different university
                 const matches = {
                 exact: [],
@@ -25,15 +22,18 @@ matchesRouter.get('/', async (request, response) => {
             try {
                 // Find exact matches 
                 matches.exact = await this.findExactMatches(student)
+                console.log("Exact Matches: ", matches.exact)
 
-                // If exact matches are less than 2, look for second priority
-                if (matches.exact.length < 2) {
+                // If exact matches are less than 1, look for second priority
+                if (matches.exact.length < 1) {
                     matches.sameUni = await this.findUniversityMatches(student)
+                    console.log(matches.sameUni)
                 }
 
-                // If first and second priority matches are less than 5, look for third priority 
-                if ((matches.exact.length) + (matches.sameUni.length) < 5) {
+                // If first and second priority matches are less than 3, look for third priority 
+                if ((matches.exact.length) + (matches.sameUni.length) < 3) {
                     matches.sameProgram = await this.findProgramMatches(student)
+                    console.log("Same programs: ", matches.sameProgram)
                 }
 
                 // Sort matches by priority
@@ -48,31 +48,31 @@ matchesRouter.get('/', async (request, response) => {
 
             async findExactMatches (student) {
                 return await Alumni.find({
-                    postSecondaryInstuition: {
-                        $regex: new RegExp(`^${userPostSecondary}$`, 'i')
+                    postSecondaryInstitution: {
+                        $regex: new RegExp(`^${student.postSecondaryInstitution}$`, 'i')
                     },
                     postSecondaryProgram: {
-                        $regex: new RegExp(`^${userProgram}$`, 'i')
+                        $regex: new RegExp(`^${student.postSecondaryProgram?.trim().toLowerCase()}$`, 'i')
                     },
-                    _id: { $ne: currentUser._id } 
+                    _id: { $ne: student._id } 
                 }).select('-password -__v -username')
             }
 
             async findUniversityMatches (student) {
                 return await Alumni.find({
-                    postSecondaryInstuition: {
-                        $regex: new RegExp(`^${userPostSecondary}$`, 'i')
+                    postSecondaryInstitution: {
+                        $regex: new RegExp(`^${student.postSecondaryInstitution}$`, 'i')
                     },
-                    _id: { $ne: currentUser._id } 
+                    _id: { $ne: student._id } 
                 }).select('-password -__v -username')
             }
 
             async findProgramMatches (student) {
                 return await Alumni.find({
                     postSecondaryProgram: {
-                        $regex: new RegExp(`^${userProgram}$`, 'i')
+                        $regex: new RegExp(`^${student.postSecondaryProgram?.trim().toLowerCase()}$`, 'i')
                     },
-                    _id: { $ne: currentUser._id } 
+                    _id: { $ne: student._id } 
                 }).select('-password -__v -username')
             }
 
@@ -83,7 +83,12 @@ matchesRouter.get('/', async (request, response) => {
                     ...matches.sameUni.map(match => ({...match.toObject(), matchType: "sameUniversity", score: 0.7})),
                 ...matches.sameProgram.map(match => ({...match.toObject(), matchType: "sameProgram", score: 0.5}))]
 
-                return allMatches.sort((a, b) => b.score - a.score)
+                const uniqueMatches = allMatches.filter(
+                (alumnus, index, self) =>
+                    index === self.findIndex(a => String(a.id) === String(alumnus.id))
+                );
+
+                return uniqueMatches.sort((a, b) => b.score - a.score)
             }
         }
 

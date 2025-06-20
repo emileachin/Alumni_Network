@@ -10,7 +10,7 @@ const EditProfile = () => {
         email: '',
         userType: '',
         highschoolGraduationYear: 0,
-        postSecondaryInstuition: '',
+        postSecondaryInstitution: '',
         postSecondaryProgram: '',
         postSecondaryGradYear: 0,
         currentCompany: '',
@@ -39,7 +39,7 @@ const EditProfile = () => {
                     email: alumniData.email || '',
                     userType: alumniData.userType || '',
                     highschoolGraduationYear: alumniData.highschoolGraduationYear || 0,
-                    postSecondaryInstuition: alumniData.postSecondaryInstuition || '',
+                    postSecondaryInstitution: alumniData.postSecondaryInstitution || '',
                     postSecondaryProgram: alumniData.postSecondaryProgram || '',
                     postSecondaryGradYear: alumniData.postSecondaryGradYear || 0,
                     currentCompany: alumniData.currentCompany || '',
@@ -68,13 +68,6 @@ const EditProfile = () => {
         event.preventDefault()
 
         try {
-            let linkedinRegex = /^(https?\/\/)?(www\.)?linkedin\.com\/in\/[\w-]+\/?$/
-
-        // Check LinkedIn URL validity
-
-        if (formData.linkedin && !linkedinRegex.test(formData.linkedin)) {
-            return
-        }
             
         console.log(formData)
 
@@ -104,32 +97,41 @@ const EditProfile = () => {
                     Last Name: {alumnus.lastName}
                 </div>
                 <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
+                    Email: {alumnus.email}
                 </div>
                 <div>
                     Username: {alumnus.username}
                 </div>
                 <div>
                 User Type: 
-                <select value={formData.userType} name="userType" onChange={handleChange} id="usertype" required>
-                    <option value="">Select User Type</option>
-                    <option value="Student">Student</option>
-                    <option value="Professional">Professional</option>
+                <select value={formData.userType} name="userType" onChange={handleChange} id="usertype">
+                    <option value={formData.userType}>{formData.userType}</option>
+                    {formData.userType == "Professional" && <option value="Student">Student</option>}
+                    {formData.userType == "Student" && <option value="Professional">Professional</option>}
                 </select>
                 </div>
                 <div>
                     High School Graduation Year: {alumnus.highschoolGraduationYear}
                 </div>
+                <div>
+                    Post Secondary Instituition: 
+                    <input 
+                        type="text"
+                        value={formData.postSecondaryInstitution} 
+                        name ="postSecondaryInstitution" 
+                        onChange={handleChange} 
+                    />
+                </div>
                 {(alumnus.postSecondaryInstitution && alumnus.postSecondaryGradYear) && (
                 <>
                 <div>
-                    Post Secondary Institution: {alumnus.postSecondaryInstitution}
+                    Post Secondary Instituition: 
+                    <input 
+                        type="text"
+                        value={formData.postSecondaryInstitution} 
+                        name ="postSecondaryInstitution" 
+                        onChange={handleChange} 
+                    />
                 </div>
                 <div>
                     <label>Post Secondary Program: </label>

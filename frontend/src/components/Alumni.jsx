@@ -33,7 +33,7 @@ const Alumni = () => {
                 <div key={alumnus.id} className="alumni-card">
                     <h3>{alumnus.firstName} {alumnus.lastName}</h3>
                     <p>High School Graduation Year: {alumnus.highschoolGraduationYear}</p>
-                    {alumnus.postSecondaryInstuition && <p>Post Secondary Institution: {alumnus.postSecondaryInstuition}</p>}
+                    {alumnus.postSecondaryInstitution && <p>Post Secondary Institution: {alumnus.postSecondaryInstitution}</p>}
                     {alumnus.postSecondaryGradYear && <p>Post Secondary Graduation Year: {alumnus.postSecondaryGradYear}</p>}
                     {alumnus.currentCompany && <p>Current Company: {alumnus.currentCompany}</p>}
                     {alumnus.jobPosition && <p>Job Position: {alumnus.jobPosition}</p>}

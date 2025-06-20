@@ -13,6 +13,7 @@ import {
   Link,
   useNavigate
 } from "react-router-dom"
+import './app.css';
 
 function App() {
   // State variables

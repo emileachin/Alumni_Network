@@ -28,7 +28,7 @@ const Matches = () => {
                         <h3>{match.firstName} {match.lastName}</h3>
                         <a href={`mailto:${match.email}`} target="_blank" rel="noopener noreferrer">Email</a>
                         <p>High School Graduation Year: {match.highschoolGraduationYear}</p>
-                        {match.postSecondaryInstuition && <p>Post Secondary Institution: {match.postSecondaryInstuition}</p>}
+                        {match.postSecondaryInstitution && <p>Post Secondary Institution: {match.postSecondaryInstitution}</p>}
                         {match.postSecondaryGradYear && <p>Post Secondary Graduation Year: {match.postSecondaryGradYear}</p>}
                         {match.currentCompany && <p>Current Company: {match.currentCompany}</p>}
                         {match.jobPosition && <p>Job Position: {match.jobPosition}</p>}
