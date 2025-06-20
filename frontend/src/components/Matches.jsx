@@ -3,6 +3,7 @@ import matchService from '../services/matches';
 
 const Matches = () => {
     const [matches, setMatches] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchMatches = async () => {
@@ -13,10 +14,15 @@ const Matches = () => {
             catch (error) {
                 console.error('Error fetching matches: ', error);
             }
+            finally {
+                setLoading(false)
+            }
         }
 
         fetchMatches();
     }, [])
+
+    if (loading) return <div>Loading....</div>
 
     return (
         <div>

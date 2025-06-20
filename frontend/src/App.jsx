@@ -88,18 +88,19 @@ function App() {
     <>
       <div>
         <h1>Alumni Network</h1>
-        <Link to="/">home     </Link>
-        {!user && <Link to="/login">login       </Link>}
-        {!user && <Link to="/register">register     </Link>}
-        {user && (
-                    <>
-                        <Link to="/dashboard">dashboard</Link>
-                        <br/>
-                        <Link to="/dashboard/alumnis">alumni list         </Link>
-                        <Link to="/dashboard/matches">matches       </Link>
-                        <Link to="/dashboard/editprofile">edit profile    </Link>
-                    </>
-        )}
+        <div className="navbar" >
+          <Link to="/">Home</Link>
+          {!user && <Link to="/login">Login</Link>}
+          {!user && <Link to="/register">Register</Link>}
+          {user && (
+                      <>
+                          <Link to="/dashboard">Dashboard</Link>
+                          <Link to="/dashboard/alumnis">Alumni List</Link>
+                          <Link to="/dashboard/matches">Matches</Link>
+                          <Link to="/dashboard/editprofile">Edit Profile</Link>
+                      </>
+          )}
+        </div>
       
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
@@ -116,17 +117,17 @@ function App() {
           />
           } />}
           {user && (
-                        <>
-                            <Route path="/dashboard" element={
-                                <>
-                                  <h1>Welcome to the dashboard, {user.username}!</h1>
-                                  <button onClick={logout}>Logout</button>
-                                </>
-                            } />
-                            <Route path="/dashboard/alumnis" element={<Alumni />} />
-                            <Route path="/dashboard/matches" element={<Matches />} />
-                            <Route path="/dashboard/editprofile" element={<EditProfile />} />
-                        </>
+                      <>
+                          <Route path="/dashboard" element={
+                              <>
+                                <h1>Welcome to the dashboard, {user.username}!</h1>
+                                <button onClick={logout}>Logout</button>
+                              </>
+                          } />
+                          <Route path="/dashboard/alumnis" element={<Alumni />} />
+                          <Route path="/dashboard/matches" element={<Matches />} />
+                          <Route path="/dashboard/editprofile" element={<EditProfile />} />
+                      </>
                     )}
           <Route path="*" element={<h1>This page does not exist</h1>} />
         </Routes>
