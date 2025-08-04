@@ -38,9 +38,9 @@ const Matches = () => {
         const filtered = allMatches.filter(match => {
             switch (filterType) {
                 case 'postSecondaryInstitution':
-                    return match.matchType === 'exact' || match.matchType === 'sameUniversity';
+                    return match.matchType === 'exact' ? true : match.matchType === 'sameUniversity';
                 case 'postSecondaryProgram':
-                    return match.matchType === 'exact' || match.matchType === 'sameProgram';
+                    return match.matchType === 'exact' ? true : match.matchType === 'sameProgram';
                 default:
                     return true;
             }

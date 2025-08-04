@@ -27,7 +27,7 @@ matchesRouter.get('/', async (request, response) => {
                 // If exact matches are less than 1, look for second priority
                 if (matches.exact.length < 1) {
                     matches.sameUni = await this.findUniversityMatches(student)
-                    console.log(matches.sameUni)
+                    console.log("Same University: ", matches.sameUni)
                 }
 
                 // If first and second priority matches are less than 3, look for third priority 
@@ -75,6 +75,8 @@ matchesRouter.get('/', async (request, response) => {
                     _id: { $ne: student._id } 
                 }).select('-password -__v -username')
             }
+
+            
 
             sortMatches (matches) {
                 // Group all matches into one array and set the matchType object to specified match priority
