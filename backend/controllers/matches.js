@@ -11,6 +11,9 @@ matchesRouter.get('/', async (request, response) => {
         // Clean and normalize the search terms
 
         class AlumniMatcher {
+            constructor(currentUser) {
+                this.currentUser = currentUser;
+            }
             async findMatches (student) {
                 //Initialize matches depending on priority, 1. same program and university, 2. same university and 3. same program, different university
                 const matches = {
@@ -76,6 +79,22 @@ matchesRouter.get('/', async (request, response) => {
                 }).select('-password -__v -username')
             }
 
+            filterMatches (matches, filterType, currentUser) {
+                if (!filterType) return matches;
+
+                return matches.filter(match => {
+                    switch (filterType) {
+                        case 'postSecondaryInstitution':
+                            return match.postSecondaryInstitution && match.postSecondaryInstitution.toLowerCase() === currentUser.postSecondaryInstitution.toLowerCase()
+                        case 'postSecondaryProgram':
+                            return match.postSecondaryProgram && match.postSecondaryProgram.toLowerCase() === currentUser.postSecondaryProgram.toLowerCase()
+                        
+                        default:
+                            return null; 
+                    }
+                })
+            }
+
             sortMatches (matches) {
                 // Group all matches into one array and set the matchType object to specified match priority
 
@@ -87,12 +106,13 @@ matchesRouter.get('/', async (request, response) => {
                 (alumnus, index, self) =>
                     index === self.findIndex(a => String(a.id) === String(alumnus.id))
                 );
-
-                return uniqueMatches.sort((a, b) => b.score - a.score)
+                
+                const sortedMatches = uniqueMatches.sort((a, b) => b.score - a.score)
+                return this.filterMatches(sortedMatches, filterType, this.currentUser)
             }
         }
 
-        const matcher = new AlumniMatcher()
+        const matcher = new AlumniMatcher(currentUser)
         const matches = await matcher.findMatches(currentUser)
         
         // Return the matches without sensitive information

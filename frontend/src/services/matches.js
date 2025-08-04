@@ -3,11 +3,16 @@ const baseUrl = "/api/matches"
 
 let token = null
 
-const getMatches = async () => {
+const getMatches = async (filterType) => {
     try {
    // Configure the request with the token
     const config = {
-      headers: { Authorization: token }
+      headers: { Authorization: token },
+      params: {}
+    }
+
+    if (filterType) {
+        config.params.filterType = filterType
     }
 
     // Make the GET request to fetch matches
