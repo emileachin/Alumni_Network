@@ -125,15 +125,6 @@ const EditProfile = () => {
                 {(alumnus.postSecondaryInstitution && alumnus.postSecondaryGradYear) && (
                 <>
                 <div>
-                    Post Secondary Instituition: 
-                    <input 
-                        type="text"
-                        value={formData.postSecondaryInstitution} 
-                        name ="postSecondaryInstitution" 
-                        onChange={handleChange} 
-                    />
-                </div>
-                <div>
                     <label>Post Secondary Program: </label>
                     <input
                                 type="text"
